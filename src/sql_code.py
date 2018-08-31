@@ -39,7 +39,30 @@ def find_parent(pid):
         #print("find_parent", e)
         return False
 
-def
+def find_existing_score():
+    try:
+        # LIMIT 1 so that we select only parent(Technically there should only be one parent)
+        sql = "SELECT score FROM parent_reply WHERE parent_id = '{}' LIMIT 1".format(pid)
+        c.execute(sql)
+        result = c.fetchone()
+        if result != None:
+            return result[0]
+        else:
+            return False
+    except Exception as e:
+        #print("find_parent", e)
+        return False
+
+def acceptable(data):
+    # Max number of words is 50
+    if len(data.split(' ')) > 50 or len(data < 1):
+        return False
+    elif len(data) > 1000:
+        return False
+    elif data == '[deleted]' or data == '[removed]':
+        return False
+    else:
+        return True
 
 if __name__ == "__main__":
     create_table()
@@ -61,6 +84,10 @@ if __name__ == "__main__":
             parent_data = find_parent(parent_id)
 
             if score >= 2:
-                existing_comment_score = find_exisiting_score(parent_id)
+                if acceptable(data):
+                    existing_comment_score = find_exisiting_score(parent_id)
+                    if existing_comment_score:
+                        if score > existing_comment_score:
+
 
 
