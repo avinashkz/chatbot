@@ -89,5 +89,3 @@ if __name__ == "__main__":
                     if existing_comment_score:
                         if score > existing_comment_score:
 
-
-
